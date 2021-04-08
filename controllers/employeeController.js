@@ -8,7 +8,7 @@ const Employee = require("../models/Employee");
 exports.createEmployee = asyncHandler(async (req, res, next) => {
   // validate request
   if (!req.body) {
-    return next(new ErrorResponse("Contain will be Empty", 400));
+    return next(new ErrorResponse("Content will be Empty", 400));
   }
 
   // // New Employee create

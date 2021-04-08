@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
+const path = require("path");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/error");
@@ -30,6 +31,9 @@ app.use(bodyParserURLEncoded);
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// set the view engine to ejs
+app.set("view engine", "ejs");
 
 // Mount routers
 app.use("/api/v1/employees", employees);
