@@ -29,29 +29,31 @@ app.use(bodyParserURLEncoded);
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+    app.use(morgan("dev"));
 }
-
-// set the view engine to ejs
-app.set("view engine", "ejs");
 
 // Mount routers
 app.use("/api/v1/employees", employees);
+
+// set the view engine to ejs
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-  )
+    PORT,
+    console.log(
+        `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow
+            .bold
+    )
 );
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
-  console.log(`Error: ${err.message}`.red);
-  // Close server & exit process
-  // server.close(() => process.exit(1));
+    console.log(`Error: ${err.message}`.red);
+    // Close server & exit process
+    // server.close(() => process.exit(1));
 });

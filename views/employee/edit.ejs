@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body style="margin: 0; padding: 0; box-sizing: border-box;">
+    <%- include('../partials/head.ejs') -%>
+
+        <%- include('../partials/header.ejs') -%>
+
+            <main>
+
+                <section class="p-5">
+                    <div class="container mx-auto rounded shadow p-5" style="background-color: wheat;">
+                        <h3 class="text-center mb-3 text-secondary">UPDATE EMPLOYEE</h3>
+                        <form method="POST" action="index.ejs">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="username" placeholder="Enter Username">
+                                <!-- <p class="text-danger text-small">*
+                                </p> -->
+                            </div>
+                            <div class="mb-3">
+                                <label for="firstname" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstname" placeholder="Enter Firstname">
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastname" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastname" placeholder="Enter Lastname   ">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter Your Email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="mobileno" class="form-label">Mobile No</label>
+                                <input type="text" class="form-control" id="mobileno" placeholder="Enter Mobile No">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dob" class="form-label">Date of Birth</label>
+                                <input type="text" class="form-control" id="dob" placeholder="Enter Your DOB">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Profile Picture</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+                            <div class="mb-3 ">
+                                <label for="">Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="male"
+                                        value="option1">
+                                    <label class="form-check-label" for="male">
+                                        MALE
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="female"
+                                        value="option2">
+                                    <label class="form-check-label" for="female">
+                                        FEMALE
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="">Hobbies</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="reading">
+                                    <label class="form-check-label" for="reading">
+                                        Reading
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="cricket">
+                                    <label class="form-check-label" for="cricket">
+                                        Cricket
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="traveling">
+                                    <label class="form-check-label" for="traveling">
+                                        Traveling
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success">UPDATE</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </main>
+</body>
+
+</html>
