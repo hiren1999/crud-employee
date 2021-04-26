@@ -51,7 +51,9 @@
                                         <%-empl.gender%>
                                     </td>
                                     <td style="width: 10%;">
-                                        <img width="40px" height="40px" src="<%-empl.profilephoto%>" alt="">
+                                        <img width="40px" height="40px"
+                                            src="http://localhost:5000/upload/Profile_Photo/<%-empl.profilephoto%>"
+                                            alt="">
 
                                     </td>
                                     <td style="width: 10%;">
@@ -59,7 +61,7 @@
                                     </td>
                                     <td class="d-flex" style="width: 10%;">
                                         <button class="btn bg-none outline-none mr-2" type="button">
-                                            <a href="">
+                                            <a href="/employees/edit/<%-empl.id%>">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="royalblue" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path

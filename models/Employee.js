@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const EmployeeSchema = new mongoose.Schema(
     {
@@ -29,7 +29,7 @@ const EmployeeSchema = new mongoose.Schema(
             required: true,
             maxlength: [
                 10,
-                "Mobile number can not be longer than 10 characters",
+                'Mobile number can not be longer than 10 characters',
             ],
         },
         profilephoto: {
@@ -39,7 +39,7 @@ const EmployeeSchema = new mongoose.Schema(
         gender: {
             type: String,
             required: true,
-            enum: ["MALE", "FEMALE"],
+            enum: ['Male', 'Female'],
         },
         dob: {
             type: Date,
@@ -56,4 +56,4 @@ const EmployeeSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("Employee", EmployeeSchema);
+module.exports = mongoose.model('Employee', EmployeeSchema);

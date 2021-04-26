@@ -11,94 +11,166 @@
                 <section class="p-5">
                     <div class="container mx-auto rounded shadow p-5" style="background-color: wheat;">
                         <h3 class="text-center mb-3 text-secondary">CREATE NEW EMPLOYEE</h3>
-                        <form method="POST" action="/api/v1/employees/create">
+                        <form id="employee_create" method="POST" action="/employees/create">
                             <div class="mb-3">
                                 <label for="username" class="form-label">User Name</label>
                                 <input type="text" class="form-control" name="username" id="username"
                                     placeholder="Enter Username">
-                                <p class="text-danger text-small">
+                                <span id="username_error" class="text-danger text-small">
 
-                                </p>
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="firstname" class="form-label">First Name</label>
                                 <input type="text" class="form-control" name="firstname" id="firstname"
                                     placeholder="Enter Firstname">
+                                <span id="firstname_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="lastname" class="form-label">Last Name</label>
                                 <input type="text" class="form-control" name="lastname" id="lastname"
                                     placeholder="Enter Lastname   ">
+                                <span id="lastname_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" name="email" id="email"
                                     placeholder="Enter Your Email">
+                                <span id="email_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="mobileno" class="form-label">Mobile No</label>
                                 <input type="text" class="form-control" name="mobileno" id="mobileno"
                                     placeholder="Enter Mobile No">
+                                <span id="mobileno_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="dob" class="form-label">Date of Birth</label>
                                 <input type="text" class="form-control" name="dob" id="dob"
                                     placeholder="Enter Your DOB">
+                                <span id="dob_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="profilephoto" class="form-label">Profile Picture</label>
-                                <input type="text" name="profilephoto" class="form-control" id="profilephoto"
-                                    placeholder="Enter Your Profile Photo BASE64 Link">
-                                <!-- <input class="form-control" type="file" id="formFile"> -->
+                                <!-- <input type="text" name="profilephoto" class="form-control" id="profilephoto"
+                                    placeholder="Enter Your Profile Photo BASE64 Link"> -->
+                                <input type="hidden" id="profilephoto_hidden" name="profilephoto" value="" />
+                                <input id="profilephoto" class="form-control" type="file"
+                                    onchange="getBaseUrl('profilephoto');">
+                                <span id="profilephoto_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3 ">
                                 <label for="">Gender</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="male"
-                                        value="option1">
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
                                     <label class="form-check-label" for="male">
                                         MALE
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="female"
-                                        value="option2">
+                                    <input class="form-check-input" type="radio" name="gender" id="female"
+                                        value="Female">
                                     <label class="form-check-label" for="female">
                                         FEMALE
                                     </label>
                                 </div>
+                                <span id="gender_error" class="text-danger text-small">
+
+                                </span>
                             </div>
-                            <!-- <div class="mb-3">
+                            <div class="mb-3">
                                 <label for="">Hobbies</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="reading" type="checkbox" value=""
+                                    <input class="form-check-input" name="hobbies" type="checkbox" value="Reading"
                                         id="reading">
                                     <label class="form-check-label" for="reading">
                                         Reading
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="cricket" type="checkbox" value=""
+                                    <input class="form-check-input" name="hobbies" type="checkbox" value="Cricket"
                                         id="cricket">
                                     <label class="form-check-label" for="cricket">
                                         Cricket
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="traveling" type="checkbox" value=""
+                                    <input class="form-check-input" name="hobbies" type="checkbox" value="Traveling"
                                         id="traveling">
                                     <label class="form-check-label" for="traveling">
                                         Traveling
                                     </label>
                                 </div>
-                            </div> -->
+                                <span id="hobbies_error" class="text-danger text-small">
+
+                                </span>
+                            </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-success">SUBMIT</button>
+                                <button type="submit" class="btn btn-success save">SUBMIT</button>
                             </div>
                         </form>
                     </div>
                 </section>
             </main>
 </body>
+<script>
+    $(document).ready(function () {
+
+        $(".save").click(function (e) {
+            e.preventDefault();
+            $("[id$='_error']").empty();
+            var url = "/employees/create";
+            var method_type = 'POST';
+
+            $.ajax({
+                url: url,
+                type: method_type,
+                data: $("#employee_create").serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success === true) {
+                        // setTimeout(function () {
+                        window.location.href = "/employees"
+                        // }, 1000);
+                    }
+                },
+                error: function (resobj) {
+
+                    $.each(resobj.responseJSON.errors, function (k, v) {
+                        console.log("errors", resobj);
+                        $('#' + k + '_error').text(v);
+                    });
+                }
+            });
+        });
+    });
+
+    // Image base64 convert
+    function getBaseUrl(val) {
+        console.log("val", val)
+        var id = '#' + val;
+        var file = document.querySelector(id)['files'][0];
+        var reader = new FileReader();
+        var baseString;
+        reader.onloadend = function () {
+            var hidden_id = id + '_hidden';
+            baseString = reader.result;
+            $(hidden_id).val(baseString);
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
 
 </html>
