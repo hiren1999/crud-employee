@@ -11,95 +11,175 @@
                 <section class="p-5">
                     <div class="container mx-auto rounded shadow p-5" style="background-color: wheat;">
                         <h3 class="text-center mb-3 text-secondary">UPDATE EMPLOYEE</h3>
-                        <form method="POST" action="/employees/:id">
+                        <form id="employee_edit" method="PATCH" action="/employees/edit/:id">
                             <div class="mb-3">
                                 <label for="username" class="form-label">User Name </label>
-                                <input type="text" class="form-control" id="username" placeholder="Enter Username"
-                                    value="<%- employee.username %>">
-                                <!-- <p class="text-danger text-small">*
-                                </p> -->
+                                <input id="username" name="username" type="text" class="form-control"
+                                    placeholder="Enter Username" value="<%- employee.username %>">
+                                <span id="username_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="firstname" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="firstname" placeholder="Enter Firstname"
-                                    value="<%- employee.firstname %>">
+                                <input type="text" class="form-control" id="firstname" name="firstname"
+                                    placeholder="Enter Firstname" value="<%- employee.firstname %>">
+                                <span id="firstname_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="lastname" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="lastname" placeholder="Enter Lastname"
-                                    value="<%- employee.lastname %>">
+                                <input type="text" class="form-control" id="lastname" name="lastname"
+                                    placeholder="Enter Lastname" value="<%- employee.lastname %>">
+                                <span id="lastname_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter Your Email"
-                                    value="<%- employee.email %>">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter Your Email" value="<%- employee.email %>">
+                                <span id="email_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="mobileno" class="form-label">Mobile No</label>
-                                <input type="text" class="form-control" id="mobileno" placeholder="Enter Mobile No"
-                                    value="<%- employee.mobileno %>">
+                                <input type="text" class="form-control" id="mobileno" name="mobileno"
+                                    placeholder="Enter Mobile No" value="<%- employee.mobileno %>">
+                                <span id="mobileno_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="dob" class="form-label">Date of Birth</label>
-                                <input type="text" class="form-control" id="dob" placeholder="Enter Your DOB"
+                                <input type="text" class="form-control" id="dob" name="dob" placeholder="Enter Your DOB"
                                     value="<%- employee.dob %>">
+                                <span id="dob_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Profile Picture</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input type="hidden" id="profilephoto_hidden" name="profilephoto" value="" />
+                                <input id="profilephoto" class="form-control" type="file"
+                                    onchange="getBaseUrl('profilephoto');">
                                 <img src="http://localhost:5000/upload/Profile_Photo/<%-employee.profilephoto%>" alt="">
+                                <span id="profilephoto_error" class="text-danger text-small">
+
+                                </span>
                             </div>
                             <div class="mb-3 ">
                                 <label for="">Gender</label>
 
-
-
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="male"
-                                        value="option1" <% if (employee.gender=="Male" ) { %> checked<% } %> >
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="Male" <%
+                                        if (employee.gender=="Male" ) { %> checked<% } %> >
                                         <label class="form-check-label" for="male">
                                             MALE
                                         </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="female"
-                                        value="option2" <% if (employee.gender=="Female" ) { %> checked<% } %> >
+                                    <input class="form-check-input" type="radio" name="gender" id="female"
+                                        value="Female" <% if (employee.gender=="Female" ) { %> checked<% } %> >
                                         <label class="form-check-label" for="female">
                                             FEMALE
                                         </label>
                                 </div>
+                                <span id="gender_error" class="text-danger text-small">
+
+                                </span>
                             </div>
+
                             <div class="mb-3">
                                 <label for="">Hobbies</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="reading" <% if
-                                        (employee.hobbies=="Reading" ) { %> checked<% } %> >
-                                        <label class="form-check-label" for="reading">
-                                            Reading
-                                        </label>
+                                    <input id="Reading" name="hobbies" class="form-check-input" type="checkbox"
+                                        value="Reading">
+                                    <label class="form-check-label" for="reading">
+                                        Reading
+                                    </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="cricket" <% if
-                                        (employee.hobbies=="Cricket" ) { %> checked<% } %> >
-                                        <label class="form-check-label" for="cricket">
-                                            Cricket
-                                        </label>
+                                    <input id="Cricket" name="hobbies" class="form-check-input" type="checkbox"
+                                        value="Cricket">
+                                    <label class="form-check-label" for="cricket">
+                                        Cricket
+                                    </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="traveling" <% if
-                                        (employee.hobbies=="Traveling" ) { %> checked<% } %> >
-                                        <label class="form-check-label" for="traveling">
-                                            Traveling
-                                        </label>
+                                    <input id="Traveling" name="hobbies" class="form-check-input" type="checkbox"
+                                        value="Traveling">
+                                    <label class="form-check-label" for="traveling">
+                                        Traveling
+                                    </label>
                                 </div>
+                                <span id="hobbies_error" class="text-danger text-small">
+
+                                </span>
                             </div>
+
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-success">UPDATE</button>
+                                <button type="submit" class="btn btn-success update">UPDATE</button>
                             </div>
                         </form>
                     </div>
                 </section>
             </main>
 </body>
+<script>
+    $(document).ready(function () {
+        var hobbies = '<%= employee.hobbies%>';
+        hobbies.split(',').forEach(data => {
+            var id = "#" + data
+            $(id).prop("checked", true);
+        });
+
+        $(".update").click(function (e) {
+            e.preventDefault();
+            $("[id$='_error']").empty();
+            var url = "/employees/edit/<%= employee._id%>";
+            var method_type = 'PATCH';
+
+            $.ajax({
+                url: url,
+                type: method_type,
+                data: $("#employee_edit").serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success === true) {
+                        // setTimeout(function () {
+                        window.location.href = "/employees"
+                        // }, 1000);
+                    }
+                },
+                error: function (resobj) {
+
+                    $.each(resobj.responseJSON.errors, function (k, v) {
+                        console.log("errors", resobj);
+                        $('#' + k + '_error').text(v);
+                    });
+                }
+            });
+        });
+    });
+
+
+    // Image base64 convert
+    function getBaseUrl(val) {
+        console.log("val", val)
+        var id = '#' + val;
+        var file = document.querySelector(id)['files'][0];
+        var reader = new FileReader();
+        var baseString;
+        reader.onloadend = function () {
+            var hidden_id = id + '_hidden';
+            baseString = reader.result;
+            $(hidden_id).val(baseString);
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
 
 </html>
