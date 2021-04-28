@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<body style="margin: 0; padding: 0; box-sizing: border-box;">
+    <%- include('../partials/head.ejs') -%>
+
+        <%- include('../partials/header.ejs') -%>
+
+            <main>
+                <section class="px-2">
+                    <div class="bg-light my-3">
+                        <h2 class="text-center text-bold text-dark p-2"> EMPLOYEES LISTS</h2>
+                    </div>
+
+                    <table id="employee_table" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>FIRSTNAME</th>
+                                <th>LASTNAME</th>
+                                <th>EMAIL</th>
+                                <th>MOBILE NO</th>
+                                <th>DOB</th>
+                                <th>GENDER</th>
+                                <th>PROFILE PHOTO</th>
+                                <th>HOBBIES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </section>
+
+            </main>
+</body>
+
+<script src="/plugins/datatable/jquery.dataTables.min.js"></script>
+<script src="/plugins/datatable/dataTables.bootstrap.min.js"></script>
+<script src="/js/fnstandrow.js"></script>
+<script src="/js/jquery.form.min.js"></script>
+<script src="/js/delete_script.js"></script>
+<script>
+    var table = "employee_table";
+    var text = "You will not be able to recover this record";
+    var type = "warning";
+
+    $(function () {
+
+        $(document).ready(function () {
+            var t = $('#employee_table').DataTable({
+                "paging": true,
+                "pageLength": 25,
+                "searching": true,
+                "processing": true,
+                "serverSide": true,
+                "autoWidth": false,
+                "sorting": [1, "asc"],
+                lengthMenu: [
+                    [25, 50, 100, 200, 500],
+                    ['25', '50', '100', '200', '500']
+                ],
+                'ajax': {
+                    'method': 'POST',
+                    'url': '/employees/list',
+                    "dataType": 'json',
+                    "data": function (data) {
+                    },
+                },
+                'columns': [
+                    // {
+                    //     mData: "_id",
+                    //     bSortable: false,
+                    //     sWidth: "10%",
+                    //     sClass: "text-center",
+                    //     bVisible: false,
+                    // },
+                    { mData: 'firstname', sClass: 'text-left', sWidth: "10%", bVisible: true, bSortable: true },
+                    { mData: 'lastname', sClass: 'text-left', sWidth: "10%", bVisible: true, bSortable: true },
+                    { mData: "email", sClass: 'text-left', bSortable: true, sWidth: "10%", bVisible: true },
+                    { mData: "mobileno", sClass: 'text-left', bSortable: true, sWidth: "10%", bVisible: true },
+                    { mData: "dob", sClass: 'text-left date', bSortable: false, sWidth: "10%", bVisible: true },
+                    { mData: "gender", sClass: 'text-left', bSortable: false, sWidth: "10%", bVisible: true },
+                    { mData: "profilephoto", sClass: 'text-left', bSortable: false, sWidth: "10%", bVisible: true },
+                    { mData: "hobbies", sClass: 'text-left', bSortable: false, sWidth: "10%", bVisible: true },
+                ],
+                fnPreDrawCallback: function () { $("div.overlay").css('display', 'flex'); },
+                fnDrawCallback: function (oSettings) {
+                    $("div.overlay").hide();
+                },
+            });
+            $('#employee_table thead th').each(function () {
+                var title = $(this).text();
+                if (title == 'FIRSTNAME') {
+                    $(this).append('<input type="text" class="form-control input-sm" placeholder="Search FirstName " />');
+                }
+                else if (title == 'LASTNAME') {
+                    $(this).append('<input type="text" class="form-control input-sm" placeholder="Search Last Name " />');
+                }
+                else if (title == 'EMAIL') {
+                    $(this).append('<input type="text" class="form-control input-sm" placeholder="Search Email" />');
+                }
+                else if (title == 'MOBILE NO') {
+                    $(this).append('<input type="text" class="form-control input-sm" placeholder="Search Mobile" />');
+                }
+
+            });
+
+            t.columns([0, 1, 2, 3]).every(function () {
+                var dataTableColumn = this;
+                var searchTextBoxes = $(this.header()).find('input');
+
+                searchTextBoxes.on('keyup change', function () {
+                    if (dataTableColumn.search() !== this.value) {
+                        dataTableColumn.search(this.value).draw();
+                    }
+                });
+
+                searchTextBoxes.on('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
+        })
+    });
+
+    // $(function () {
+    //     var date = document.getElementsByClassName("date").innerHTML
+    //     var d = convertUTCDateToLocalDate(new Date(date))
+    //     // var d = new Date(date);
+    //     // document.getElementsByClassName("date").innerHTML = d.toDateString();
+    // });
+
+</script>
+
+</html>

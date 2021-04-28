@@ -115,11 +115,6 @@ exports.getCreateEmployees = asyncHandler(async (req, res, next) => {
 exports.getEmployees = asyncHandler(async (req, res, next) => {
     const employees = await Employee.find();
 
-    // res.status(200).json({
-    //     success: true,
-    //     count: employees.length,
-    //     data: employees,
-    // });
     res.render('index', {
         req: req,
         response: employees,
@@ -151,22 +146,6 @@ exports.getEmployee = async (req, res, next) => {
 // @route     PATCH /employees/edit/:id
 // @access    Private
 exports.updateEmployee = async (req, res, next) => {
-    // let employee = await Employee.findById(req.params.id);
-
-    //     if (!employee) {
-    //         return next(
-    //             new ErrorResponse(
-    //                 `Employee not found with id of ${req.params.id}`,
-    //                 404
-    //             )
-    //         );
-    //     }
-
-    //     employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
-    //         new: true,
-    //         runValidators: true,
-    //     });
-
     try {
         var url = req.originalUrl.split('/');
         const { errors, isValid } = await validateRegisterInput(
@@ -176,7 +155,6 @@ exports.updateEmployee = async (req, res, next) => {
 
         Employee.findOne({ username: req.body.username }).then(
             (check_username) => {
-                console.log('check', req.params.id);
                 if (
                     check_username &&
                     isEmpty(errors.username) &&
@@ -318,3 +296,101 @@ exports.deleteEmployee = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({ success: true, data: {} });
 });
+
+// @desc      Get employees list
+// @route     GET /employees/list
+// @access    Public
+exports.getEmployeesList = (req, res) => {
+    res.render('employee/list', {
+        req: req,
+    });
+};
+
+// @desc      employees list
+// @route     POST /employees/list
+// @access    Public
+
+exports.postEmployeesList = (req, res) => {
+    var columns = [
+        'firstname',
+        'lastname',
+        'email',
+        'mobileno',
+        '_id',
+        'dob',
+        'gender',
+        'profilephoto',
+        'hobbies',
+    ];
+    var searchStr = req.body.search.value;
+    var sortingColumn = req.body.order[0].column;
+
+    var columnsData = req.body.columns[sortingColumn].data;
+    var sortingType = req.body.order[0].dir;
+    var sortJson = {};
+    if (sortingType == 'desc') {
+        sortJson[columns[sortingColumn]] = -1;
+    } else {
+        sortJson[columns[sortingColumn]] = 1;
+    }
+    if (req.body.search.value != '') {
+        var regex = new RegExp(req.body.search.value, 'i');
+        console.log('search', req.body.search.value);
+        searchStr = {
+            $or: [
+                { firstname: regex },
+                { lastname: regex },
+                { email: regex },
+                { mobileno: regex },
+            ],
+        };
+    } else if (req.body.columns[0].search.value != '') {
+        var regex = new RegExp(req.body.columns[0].search.value, 'i');
+        searchStr = { $or: [{ firstname: regex }] };
+    } else if (req.body.columns[1].search.value != '') {
+        var regex = new RegExp(req.body.columns[1].search.value, 'i');
+        searchStr = { $or: [{ lastname: regex }] };
+    } else if (req.body.columns[2].search.value != '') {
+        var regex = new RegExp(req.body.columns[2].search.value, 'i');
+        searchStr = { $or: [{ email: regex }] };
+    } else if (req.body.columns[3].search.value != '') {
+        var regex = new RegExp(req.body.columns[3].search.value, 'i');
+        searchStr = { $or: [{ mobileno: regex }] };
+    } else if (req.body.columns[4].search.value != '') {
+        var regex = new RegExp(req.body.columns[4].search.value, 'i');
+        searchStr = { $or: [{ _id: regex }] };
+    } else {
+        searchStr = {};
+    }
+
+    employee_search = searchStr;
+
+    var recordsTotal = 0;
+    var recordsFiltered = 0;
+
+    Employee.countDocuments({}, function (err, c) {
+        recordsTotal = c;
+        Employee.countDocuments(searchStr, function (err, c) {
+            recordsFiltered = c;
+
+            Employee.find(searchStr, columns, {
+                skip: Number(req.body.start),
+                limit: Number(req.body.length),
+            })
+                .sort(sortJson)
+                .exec(function (err, result) {
+                    if (err) {
+                        console.log('error while getting result' + err);
+                        return;
+                    }
+                    var data = JSON.stringify({
+                        draw: req.body.draw,
+                        recordsFiltered: recordsFiltered,
+                        recordsTotal: recordsTotal,
+                        data: result,
+                    });
+                    res.send(data);
+                });
+        });
+    });
+};

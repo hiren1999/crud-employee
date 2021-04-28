@@ -17,7 +17,7 @@
                     <table class="table">
                         <thead class="table-dark">
                             <tr>
-                                <th style="width: 10%;">ID</th>
+
                                 <th style="width: 10%;">FULLNAME</th>
                                 <th style="width: 10%;">EMAIL</th>
                                 <th style="width: 10%;">MOBILE NO</th>
@@ -31,9 +31,7 @@
                         <tbody>
                             <%response.forEach(empl=>{ %>
                                 <tr>
-                                    <td style="width: 10%;">
-                                        <%-empl.id%>
-                                    </td>
+
                                     <td style="width: 10%;">
                                         <%-empl.firstname%>
                                             <%-empl.lastname%>
@@ -44,7 +42,7 @@
                                     <td style="width: 10%;">
                                         <%-empl.mobileno%>
                                     </td>
-                                    <td style="width: 10%;">
+                                    <td id="date" style="width: 10%;">
                                         <%-empl.dob%>
                                     </td>
                                     <td style="width: 10%;">
@@ -88,6 +86,8 @@
             </main>
 </body>
 <script>
+
+
     function deleteID(e) {
 
         var id = $(e).val()
@@ -106,27 +106,7 @@
             },
 
         });
-
-
     }
-
-    $(document).ready(function () {
-
-
-        // var id = ;
-
-
-
-        // $(".save").click(function (e) {
-        //     e.preventDefault();
-        //     $("[id$='_error']").empty();
-        //     var url = "/employees/";
-        //     var method_type = 'POST';
-
-
-        // });
-    });
-
 
 </script>
 
